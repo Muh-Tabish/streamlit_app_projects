@@ -1,6 +1,8 @@
 import pickle
 import numpy as np
 import streamlit as st
+from pathlib import Path
+
 
 st.set_page_config(
     page_title="Breast Cancer Prediction",
@@ -13,13 +15,19 @@ st.set_page_config(
 # -----------------------------
 @st.cache_resource
 def load_saved_files():
-    with open("models/breast_cancer_model.pkl", "rb") as file:
+    base_dir = Path(__file__).parent
+
+    model_path = base_dir / "models" / "breast_cancer_model.pkl"
+    scaler_path = base_dir / "models" / "scaler.pkl"
+    features_path = base_dir / "models" / "features.pkl"
+
+    with open(model_path, "rb") as file:
         model = pickle.load(file)
 
-    with open("models/scaler.pkl", "rb") as file:
+    with open(scaler_path, "rb") as file:
         scaler = pickle.load(file)
 
-    with open("models/features.pkl", "rb") as file:
+    with open(features_path, "rb") as file:
         features = pickle.load(file)
 
     return model, scaler, features
